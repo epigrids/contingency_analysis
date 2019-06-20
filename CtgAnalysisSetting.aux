@@ -1,0 +1,105 @@
+//--------------------------------------------------------------------------------
+// THE FOLLOWING LIMIT MONITORING SETTINGS ARE BEING SAVED BY THE CONTINGENCY TOOL.
+//--------------------------------------------------------------------------------
+Limit_Monitoring_Options (LMS_IgnoreRadial)
+{
+"NO "
+}
+
+LimitSet (Number,Name,LowVolt,HighVolt,BranchPercent,InterfacePercent,NomogramPercent,
+   BranchRateSet,BranchRateSetCTG,InterfaceRateSet,InterfaceRateSetCTG,Disabled,
+   AmpMVA,Selected,NeverReport,AlwaysReport,VoltChangePercent,NeverBranchInc,
+   AlwaysBranchInc,NeverLowVoltDec,AlwaysLowVoltDec,NeverHighVoltInc,
+   AlwaysHighVoltInc,NeverInterfaceInc,AlwaysInterfaceInc,MonitorEnd,
+   LowVoltCutoff,UseLimitCost,LowVoltRateSet,HighVoltRateSet,LowVoltRateSetCTG,
+   HighVoltRateSetCTG,LowVoltCTG,HighVoltCTG,MonDiscBus,UseSetCTGMon,
+   DataMaintainer,DataMaintainerAssign,ScreenBranchPercent,
+   ScreenInterfacePercent,ScreenBusPairPercent,ScreenTolLowVolt,
+   ScreenTolHighVolt,ScreenTolChangeVolt,BusPairPercent,BusPairRateSet,
+   BusPairRateSetCTG,ScreenLowVoltMult)
+{
+         1 "Default"      0.900      1.100    100.000    100.000    100.000 "A" "C" "A" "A" "NO " "MVA" "NO " "NO " "NO " "NO "      0.000    999.000      0.000      2.000      0.000      2.000      0.000    999.000 "Higher"      0.300 "No" "A" "A" "A" "A"      0.900      1.100 "NO " "NO " "" ""     90.000     90.000     90.000      0.010      0.010      0.010    100.000 "A" "A"      1.000
+}
+
+Area (ObjectID,MonitorLimits,MonitorMinkV,MonitorMaxkV)
+{
+"Area '1'" "YES"     0.0000  9999.0000
+}
+
+Zone (ObjectID,MonitorLimits,MonitorMinkV,MonitorMaxkV)
+{
+"Zone '1'" "YES"     0.0000  9999.0000
+}
+
+SCRIPT
+{
+SetData(Bus, [Monitor,LimitSet], ["YES", "Default"], All); //  set all buses to monitored as part of first limit group
+}
+SCRIPT
+{
+SetData(Branch, [Monitor,LimitSet], ["YES", "Default"], All); //  set all branches to monitored as part of first limit group
+}
+SCRIPT
+{
+SetData(Interface, [Monitor,LimitSet], ["YES", "Default"], All); //  set all interfaces to monitored as part of first limit group
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING SECTION CONTAINS OPTIONS FOR THE CONTINGENCY ANALYSIS.
+//--------------------------------------------------------------------------------
+CTG_Options (HardDriveFilename,HardDriveUseColHead,HardDriveSave,AlwaysReport,AlwaysBranchInc,
+   AlwaysHighVoltInc,AlwaysInterfaceInc,AlwaysLowVoltDec,BCViolReport,
+   BCViolBranchInc,BCViolHighVoltInc,BCViolInterfaceInc,BCViolLowVoltDec,
+   NeverReport,NeverBranchInc,NeverHighVoltInc,NeverInterfaceInc,NeverLowVoltDec,
+   VoltChangePercent,IslandViolationMinBus,IslandViolationMinLoadMW,
+   IslandViolations,MonPrimaryBus,MonDiscBus,MonVoltSensThres,MonVoltSensFilter,
+   MonVoltSens,CTG_AlwaysSaveResults,WhatActuallyOccuredContingencyDescription,
+   CTGSaveInPWB,CTGStoreLODFS,CTGLabel,CTGLabel:1,CalculationMethod,
+   DisableGenDropOverlap,OPF_SolutionType,IterateOnActionStatus,AllowAmpLimits,
+   ReactivePowerModel,AGCToleranceMVA,AGCTolerance,MakeUpPower,PostCTGAuxFile,
+   PostCTGSolAuxFile,PreventIslandWithoutEnoughGen,RetryRobust,TSModelMaxDelay,
+   TSModelsTrip,TSModelsMonitor,UseIncTP,IgnoreRASIfTrueInRef,ScreenAllow,
+   ScreenIncludeVoltage,ScreenVoltMaxItr,ScreenMethod,ScreenNumBranch,
+   ScreenNumBus,ScreenNumBusPair,ScreenNumInterface,ScreenVoltStoreViol,
+   CTG_ReportMaxVioPerType,CTG_ReportAll,CTG_ReportBaseCaseOutages,
+   CTG_ReportBranchChangeFlowVio,CTG_ReportBusHighVolt,CTG_ReportBusLowVolt,
+   CTG_ReportBusVoltageExtremes,CTG_ReportCaseSummary,CTG_ReportCondense,
+   CTG_ReportCreateTables,CTG_ReportFieldSeparator,CTG_ReportIDBusBy,
+   CTG_ReportInactiveViolations,CTG_ReportInterfaceChangeFlowVio,
+   CTG_ReportInterfaceFlow,CTG_ReportLargestBranchFlow,
+   CTG_ReportLargestInterfaceFlow,CTG_ReportLineFlow,CTG_ReportMonitoredAreas,
+   CTG_ReportMonitoredZones,CTG_ReportOnlyNonZero,CTG_ReportOnlyViolations,
+   CTG_ReportOptionSettings,CTG_ReportVoltDecreaseVio,CTG_ReportVoltIncreaseVio)
+{
+"" "NO " "NO " "NO " 999.000  2.000 999.000  2.000 "     1"  0.000  0.000  0.000  0.000 "NO "  0.000  0.000  0.000  0.000 "NO " 10 50.000 "NO " "YES" "NO " 10.000 "" "NO " "YES" "PRETTY NAME_NUMBER" "YES" " 0" "" "" "AC" "NO " NO  "NO " "NO " "Ignore"  5.000  0.050 "Gen Part Factors" "" "" "NO " "NO " 3600.000 "" "" NO  "NO " "NO" "YES" 2 "DC" 20 20 10 10 "NO "       9999 "NO " "NO " "NO " "YES" "YES" "NO " "NO " "NO " "NO " "$"      3 "NO " "NO " "YES" "NO " "NO " "YES" "NO " "NO " "NO " "NO " "NO " "NO " "NO "
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING SECTION CONTAINS THE POWER FLOW SOLUTION OPTIONS.
+//--------------------------------------------------------------------------------
+Sim_Solution_Options (CloseCBToEnergizeShunts,DCMvarComp,DCPhaseIgnore,DCXFCorrIgnore,DCModelType,
+   DCApprox,DCLossComp,EconDispEnforceConvex,EconDispPenaltyFactors,
+   CTGInterfaceEnforcement,DisableAngleRotation,DisableAngleSmoothing,
+   DisableRestoreSolution,DisableRestoreState,DisableXFTapWrongSign,
+   DynAssignSlack,EvalSolutionIsland,LossSenseFunc,MVABase,MVAConvergenceTol,
+   PUConvergenceTol,DisableOptMult,DoOneIteration,FlatStartInit,MaxItr,
+   MinVoltILoad,MinVoltSLoad,MWAGCIGOnlyAGCAble,MWAGCIGEnforceGenMWLimits,
+   MWAGCIGPositiveLoad,MWAGCIGName,AGCToleranceMVA,AGCTolerance,MWAGCAreaIsland,
+   MWAGCIGQMult,MWAGCIGPowerFact,MWAGCIGUseContantPF,LogID,LogMWColor,
+   LogMvarColor,LogOPFLPColor,LogLTCColor,LogPhaseColor,LogShuntColor,LogNomkV,
+   LogMWSuppress,LogMvarSuppress,LogOPFLPSuppress,LogLTCSuppress,
+   LogPhaseSuppress,LogShuntSuppress,ChkMWAGC,EnforceGenMWLimits,
+   ConsolidationUse,LTCTapBalance,ChkDFACTS,ChkPhaseShifters,ChkSVCs,ChkShunts,
+   ChkTaps,DisableGenMVRCheck,ChkVarBackoffImmediately,ChkVarImmediately,
+   MaxItrVoltLoop,MinLTCSense,ModelPSDiscrete,PreventOscillations,
+   MvarSharingAllocation,ShuntInner,TransformerStepping,ZBRThreshold)
+{
+"NO " "NO " "YES" "YES" RIgnore "NO " "NO " "NO " "YES" PowerFlow "NO " "NO " "NO " "NO " "YES" "YES" "NO " "None" "100.000"  0.100  0.001 "NO " "NO " "NO "     50  0.500  0.700 "NO " "NO " "NO " ""  1.000  0.010 "Gen Part Factors"  1.000  1.000 "NO " "Numbers" 16711680 8388736 16711680  32768 8388863  33023 "NO " "NO " "NO " "YES" "NO " "NO " "NO " "YES" "YES" "NO " "YES" "NO " "YES" "YES" "YES" "YES" "NO " "YES" "NO "     20  0.010 "NO " "YES" "RegPerc" "YES" "Coordinated" "0.0002"
+}
+
+// THE FOLLOWING SECTION CONTAINS OPTIONS FOR MAKE UP GENERATION FOR CONTINGENCY ANALYSIS.
+Area (ObjectID,CTGMakeUpGen)
+{
+"Area '1'"     0.0000
+}
+

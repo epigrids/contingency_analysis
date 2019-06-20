@@ -1,0 +1,8 @@
+SCRIPT
+
+{
+LoadAux("I:\powerworld_api\CtgAnalysisSetting.aux", NO);
+CTGSolveAll(DoDistributed, ClearAllResults);
+CTGSaveViolationMatrices("CASENAME_results.csv", CSVCOLHEADER, YES,[BRANCH, BUS],YES, NO,,[],YES);
+//CTGSaveViolationMatrices("filename", filetype, UsePercentage, [ObjectTypesToReport], SaveContingency, SaveObjects, FieldListObjectType, [FieldList], IncludeUnsolvableCTGs);
+}

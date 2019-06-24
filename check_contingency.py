@@ -3,12 +3,6 @@ import pdb
 import sys
 import os
 import pypowerworld
-
-import pandas as pd
-import numpy as np
-import win32com
-from win32com.client import VARIANT
-import pythoncom
 #Test.inl is a sample inl file
 #Creates TestINL.csv with only first, second, and sixth columns
 
@@ -30,21 +24,23 @@ def run_multiple_contingency_analysis_on_raw():
 
 	try:
 		for casename in casenames:
-			print(casename)
+			print('Check contingency for ' + casename)
 			with open(casename + ".inl","r") as source:
 				rdr= csv.reader( source )
 				with open(casename + "_INL.csv","w", newline = '') as result:
 					wtr= csv.writer( result )
 					wtr.writerow(("Gen", "", ""))
 					wtr.writerow(("BusNum","ID", "PartFact"))
+
 					for r in rdr:
 						if r[0] == '0':
 							break
 
 						wtr.writerow( (r[0], r[1], r[5]) )
 			
+			cwd = os.getcwd()
 
-			auxtext = open('checkWv3.aux', 'r').read().replace('CASENAME', casename)
+			auxtext = open('checkWv3.aux', 'r').read().replace('CASENAME', casename).replace('CURRENT_PATH', cwd)
 			
 			print('Start an powerworld case.....')
 			#raw_name = casename + '-W.raw'
@@ -59,7 +55,7 @@ def run_multiple_contingency_analysis_on_raw():
 			print('Successfully ran aux text.')
 
 	except Exception as e:
-            print(e) 
+		print(e) 
 
 
 
@@ -68,7 +64,7 @@ def run_single_contingency_analysis_on_raw():
 
 	casename = sys.argv[1]
 
-	print(casename)
+	print('Check contingency for ' + casename)
 	with open(casename + ".inl","r") as source:
 		rdr= csv.reader( source )
 		with open(casename + "_INL.csv","w", newline = '') as result:
@@ -81,24 +77,27 @@ def run_single_contingency_analysis_on_raw():
 
 				wtr.writerow( (r[0], r[1], r[5]) )
 			
-
-	auxtext = open('checkWv3.aux', 'r').read().replace('CASENAME', casename)
+	cwd = os.getcwd()
+	auxtext = open('checkWv3.aux', 'r').read().replace('CASENAME', casename).replace('CURRENT_PATH', cwd)
 			
-	print('Start an powerworld case.....')
-	#raw_name = casename + '-W.raw'
-	raw_object = pypowerworld.PyPowerWorld(casename + '-W.pwb')
-	#raw_object.opencase(raw_name)
-	print('Start loading auxtext.....')
+	try:
+		print('Start an powerworld case.....')
+		#raw_name = casename + '-W.raw'
+		raw_object = pypowerworld.PyPowerWorld(casename + '-W.pwb')
+		#raw_object.opencase(raw_name)
+		print('Start loading auxtext.....')
 
-	raw_object.loadauxfiletext(auxtext)
+		raw_object.loadauxfiletext(auxtext)
 
-	print('Finish loading auxtext')
-	raw_object.closecase()
-	print('Successfully ran aux text.')
+		print('Finish loading auxtext')
+		raw_object.closecase()
+		print('Successfully ran aux text.')
+	except Exception as e:
+		print(e)
 
 
 
 
 
 if __name__ == '__main__':
-	run_multiple_contingency_analysis_on_raw()
+	run_single_contingency_analysis_on_raw()

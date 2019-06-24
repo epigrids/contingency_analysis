@@ -4,7 +4,7 @@ SCRIPT
 OpenCase("CASENAME-W.raw",PTI33);
 LoadCSV("CASENAME_INL.csv",NO);// Can read in the original -sup csv or a new converted inl
 CTGReadFilePTI("CASENAME.con");
-LoadAux("I:\powerworld_api\CtgAnalysisSetting.aux", NO);
+LoadAux("CURRENT_PATH\CtgAnalysisSetting.aux", NO);
 CTGSolveAll(DoDistributed, ClearAllResults);
 CTGSaveViolationMatrices("CASENAME_results.csv", CSVCOLHEADER, YES,[BRANCH, BUS],YES, NO,,[],YES);
 //CTGSaveViolationMatrices("filename", filetype, UsePercentage, [ObjectTypesToReport], SaveContingency, SaveObjects, FieldListObjectType, [FieldList], IncludeUnsolvableCTGs);
